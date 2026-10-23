@@ -27,7 +27,7 @@ fi
 git config --global user.name 'XonolithOS Local Builder'
 git config --global user.email 'build@xonolithos.invalid'
 git config --global trailer.changeid.key Change-Id
-git lfs install
+git lfs install --skip-repo
 mkdir -p "$TREE"
 cd "$TREE"
 status initializing 'LineageOS 24.0 / Android 17, gts4lv'
