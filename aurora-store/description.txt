@@ -1,0 +1,1 @@
+An alternative client for discovering and downloading apps distributed through Google Play. Some downloaded apps may still require Google Play Services.
