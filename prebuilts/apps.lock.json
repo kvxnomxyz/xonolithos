@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "checked_on": "2026-10-23",
+  "apps": [
+    {
+      "module": "WMKeyboard",
+      "package": "com.wasimaster.wmkeyboard",
+      "version": "0.6.0",
+      "url": "https://f-droid.org/repo/com.wasimaster.wmkeyboard_33.apk",
+      "sha256": "fad2be6b1ffda3a7240f2c811f27aafbd178be912fdc4780cc1f0391f9d0aef5",
+      "license": "MIT",
+      "filename": "WMKeyboard.apk",
+      "distribution": "review-source-and-notices-before-release",
+      "versionCode": 33,
+      "signer_sha256": [
+        "d6c1f30a6116d33e4e778b372f335faa91dad35f657a84e4e7077b29641e7cad"
+      ],
+      "size_bytes": 102242504
+    },
+    {
+      "module": "FDroid",
+      "package": "org.fdroid.fdroid",
+      "version": "1.23.2",
+      "url": "https://f-droid.org/repo/org.fdroid.fdroid_1023052.apk",
+      "sha256": "985f5181d48bb6bafd54083a048b391271e0ab28385881cc41294fb01a222762",
+      "license": "GPL-3.0-or-later",
+      "filename": "FDroid.apk",
+      "distribution": "review-source-and-notices-before-release",
+      "versionCode": 1023052,
+      "signer_sha256": [
+        "43238d512c1e5eb2d6569f4a3afbf5523418b82e0a3ed1552770abb9a9c9ccab"
+      ],
+      "size_bytes": 12426276
+    },
+    {
+      "module": "AuroraStore",
+      "package": "com.aurora.store",
+      "version": "4.8.4",
+      "url": "https://f-droid.org/repo/com.aurora.store_76.apk",
+      "sha256": "fd9c75d90d0f4a7c132b9b4a5a2cf1992a45e03b8d8ff988b7dcfbc0db2c4d11",
+      "license": "GPL-3.0-or-later",
+      "filename": "AuroraStore.apk",
+      "distribution": "review-source-and-notices-before-release",
+      "versionCode": 76,
+      "signer_sha256": [
+        "5c83c7672b929955dc0a1db89a5e6ae4389e2eae7ec939956041694e5815f532"
+      ],
+      "size_bytes": 9360088
+    },
+    {
+      "module": "Firefox",
+      "package": "org.mozilla.firefox",
+      "version": "158.0.2",
+      "url": "https://archive.mozilla.org/pub/fenix/releases/158.0.2/android/fenix-158.0.2-android-arm64-v8a/fenix-158.0.2.multi.android-arm64-v8a.apk",
+      "filename": "Firefox.apk",
+      "license": "MPL-2.0",
+      "distribution": "review-source-and-notices-before-release",
+      "sha256": "46a588b9f33c261e8cda9549426fc0118fde517cb87087633c11000d3e8099d5",
+      "versionCode": 2016191570,
+      "signer_sha256": [
+        "a78b62a5165b4494b2fead9e76a280d22d937fee6251aece599446b2ea319b04"
+      ],
+      "size_bytes": 135361229
+    },
+    {
+      "module": "Obsidian",
+      "package": "md.obsidian",
+      "version": "1.14.4",
+      "url": "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.14.4/Obsidian-1.14.4.apk",
+      "sha256": "b3e5bfa107bb01c4c121d810622ff2de03fd298f55fcf6268b9db50186f192a3",
+      "license": "Proprietary",
+      "filename": "Obsidian.apk",
+      "distribution": "private-build-only",
+      "versionCode": 389,
+      "signer_sha256": [
+        "bd3bd52f4427b5ab7f8059d071a35e3de943c646546d32313da5f1cac254b7e4"
+      ],
+      "size_bytes": 15177776
+    }
+  ],
+  "pending": [
+    "GCam: device-compatible port selection",
+    "Bitpost Account Network specification"
+  ]
+}

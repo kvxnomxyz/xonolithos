@@ -1,0 +1,133 @@
+{
+  "lineage": {
+    "url": "https://github.com/LineageOS/android.git",
+    "branch": "lineage-24.0",
+    "commit": "b51a0c449a3279ca55fb6d4d91d2143e42e2fff5"
+  },
+  "port": {
+    "url": "https://github.com/anton-scholten/lineageos-galaxy-tab-s5e",
+    "commit": "4fb2a1112b8be1418d85c97d7264e1a755c5288f"
+  },
+  "projects": [
+    {
+      "manifest": "bluetooth-disabled-commands.xml",
+      "path": "packages/modules/Bluetooth",
+      "name": "android_packages_modules_Bluetooth",
+      "url": "https://github.com/anton-scholten/android_packages_modules_Bluetooth.git",
+      "branch": "lineage-24.0",
+      "commit": "11434c8f8a070812b2603a5588e1567ac9e8d91b"
+    },
+    {
+      "manifest": "caf-sdm845.xml",
+      "path": "hardware/qcom-caf/sdm845/audio",
+      "name": "LineageOS/android_hardware_qcom_audio",
+      "url": "https://github.com/LineageOS/android_hardware_qcom_audio.git",
+      "branch": "lineage-23.2-caf-sdm845",
+      "commit": "d5ad5c133b7024606b0ab9a720265fd7f9f0e6b6"
+    },
+    {
+      "manifest": "caf-sdm845.xml",
+      "path": "hardware/qcom-caf/sdm845/display",
+      "name": "LineageOS/android_hardware_qcom_display",
+      "url": "https://github.com/LineageOS/android_hardware_qcom_display.git",
+      "branch": "lineage-23.2-caf-sdm845",
+      "commit": "601faec098fd0eb5ad98bc323d62e5479417f623"
+    },
+    {
+      "manifest": "caf-sdm845.xml",
+      "path": "hardware/qcom-caf/sdm845/media",
+      "name": "LineageOS/android_hardware_qcom_media",
+      "url": "https://github.com/LineageOS/android_hardware_qcom_media.git",
+      "branch": "lineage-23.2-caf-sdm845",
+      "commit": "c14d81523fa2a24769ecec5e3c488aa96c1a6708"
+    },
+    {
+      "manifest": "compat-audiosystem.xml",
+      "path": "hardware/lineage/compat",
+      "name": "android_hardware_lineage_compat",
+      "url": "https://github.com/anton-scholten/android_hardware_lineage_compat.git",
+      "branch": "lineage-24.0",
+      "commit": "eaf8275e45ba44d915d1cebaad3978c17ed56da3"
+    },
+    {
+      "manifest": "gcc-arm32.xml",
+      "path": "prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9",
+      "name": "LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9",
+      "url": "https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git",
+      "branch": "lineage-19.1",
+      "commit": "111258a10e017f067b27e6cfcea7619d753f3309"
+    },
+    {
+      "manifest": "gts4lv-common.xml",
+      "path": "device/samsung/gts4lv-common",
+      "name": "android_device_samsung_gts4lv-common",
+      "url": "https://github.com/anton-scholten/android_device_samsung_gts4lv-common.git",
+      "branch": "lineage-24.0",
+      "commit": "40e38d82a199bd456be40e1ec132c6cb0173e180"
+    },
+    {
+      "manifest": "gts4lv-common.xml",
+      "path": "kernel/samsung/sdm670",
+      "name": "android_kernel_samsung_sdm670",
+      "url": "https://github.com/anton-scholten/android_kernel_samsung_sdm670.git",
+      "branch": "lineage-24.0",
+      "commit": "72f6ca56842c2a1b95ebb63f7c6b6f7f940347ba"
+    },
+    {
+      "manifest": "gts4lv-common.xml",
+      "path": "hardware/samsung",
+      "name": "LineageOS/android_hardware_samsung",
+      "url": "https://github.com/LineageOS/android_hardware_samsung.git",
+      "branch": "lineage-24.0",
+      "commit": "fa202d96b62362e756f160e60a80f675add412a0"
+    },
+    {
+      "manifest": "gts4lv-common.xml",
+      "path": "vendor/samsung/gts4lv-common",
+      "name": "proprietary_vendor_samsung_gts4lv-common",
+      "url": "https://github.com/anton-scholten/proprietary_vendor_samsung_gts4lv-common.git",
+      "branch": "lineage-24.0",
+      "commit": "1e0cce7afb3c92c5eb0e55c6bce523fff29617b1"
+    },
+    {
+      "manifest": "gts4lv.xml",
+      "path": "device/samsung/gts4lv",
+      "name": "LineageOS/android_device_samsung_gts4lv",
+      "url": "https://github.com/LineageOS/android_device_samsung_gts4lv.git",
+      "branch": "lineage-22.2",
+      "commit": "3260fd2c4f1abcf0303485afa9fa4a7b3faec98b"
+    },
+    {
+      "manifest": "gts4lv.xml",
+      "path": "vendor/samsung/gts4lv",
+      "name": "proprietary_vendor_samsung_gts4lv",
+      "url": "https://github.com/TheMuppets/proprietary_vendor_samsung_gts4lv.git",
+      "branch": "lineage-22.2",
+      "commit": "18030d863e7fe8b074c4d0755f2556dd944a68ab"
+    },
+    {
+      "manifest": "sepolicy-icmp.xml",
+      "path": "device/qcom/sepolicy_vndr/legacy-um",
+      "name": "android_device_qcom_sepolicy_vndr",
+      "url": "https://github.com/anton-scholten/android_device_qcom_sepolicy_vndr.git",
+      "branch": "lineage-24.0",
+      "commit": "d4fc89899fdeb671558056855b6528ad2456b438"
+    },
+    {
+      "manifest": "system-core-keyring.xml",
+      "path": "system/core",
+      "name": "android_system_core",
+      "url": "https://github.com/anton-scholten/android_system_core.git",
+      "branch": "lineage-24.0",
+      "commit": "40a6fdb6dca9807f00a10fe0bbbc124dfa5dfea3"
+    },
+    {
+      "manifest": "vold-keyring.xml",
+      "path": "system/vold",
+      "name": "android_system_vold",
+      "url": "https://github.com/anton-scholten/android_system_vold.git",
+      "branch": "lineage-24.0",
+      "commit": "f8c406dbd98117d73128c74a0c4ccea000c8b9ed"
+    }
+  ]
+}

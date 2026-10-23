@@ -1,0 +1,1 @@
+This is a metadata-only example for the Xstore folder format. Replace it with your own app information before publishing. It is not installable.

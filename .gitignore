@@ -1,0 +1,12 @@
+.cache/
+.state/
+android/
+artifacts/
+prebuilts/*.apk
+prebuilts/*.part
+apps/*/build/
+*.pk8
+*.jks
+*.keystore
+*.p12
+__pycache__/
