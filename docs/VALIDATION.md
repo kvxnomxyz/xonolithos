@@ -6,6 +6,8 @@
   catalog entries, required installation metadata, HTTP rejection and APK checksum mismatch.
 - JVM Xstore test covering GitHub catalog parsing at a pinned commit, metadata-only listings,
   verified downloads, tamper rejection/deletion and a missing appstore branch.
+- After publishing, the actual Xstore catalog client loaded all five entries from the live
+  `kvxnomxyz/xonolithos:appstore` branch and validated their installation metadata.
 - Xstore compiled with Android SDK 35 and JDK 21 into a standalone development APK.
   Android apksigner verified its v2 and v3 signatures.
 - All five downloaded prebuilt APKs passed Android signature verification and package-ID
