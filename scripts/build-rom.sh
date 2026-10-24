@@ -36,7 +36,7 @@ repo init -u https://github.com/LineageOS/android.git -b "$MANIFEST_COMMIT" \
     --git-lfs --no-clone-bundle --depth=1
 python3 "$ROOT/scripts/render-manifests.py" "$TREE/.repo/local_manifests"
 status syncing 'Downloading source; resumable, limited to 4 jobs'
-repo sync -c -j"${SYNC_JOBS:-4}" --no-tags --no-clone-bundle --fail-fast
+repo sync -c -j"${SYNC_JOBS:-4}" --no-tags --no-clone-bundle
 repo manifest -r -o "$ROOT/artifacts/manifest-before-xos.xml"
 status integrating
 python3 "$ROOT/scripts/prepare-tree.py" "$TREE"
