@@ -6,4 +6,6 @@ The OS lives on the `main` branch. It pins external Android and device-tree revi
 
 For focused work, `bash scripts/build-xstore.sh` and `bash scripts/build-systemcenter.sh` make standalone development APKs. The latter does not receive ROM-only privileged permissions when sideloaded. `python3 scripts/make-bootanimation.py` regenerates the boot ZIP from source.
 
+For the existing Samsung development ROM, the [feature update procedure](https://github.com/kvxnomxyz/xonolithos/blob/main/docs/FEATURES-UPDATE.md) produces a signed recovery ZIP from SDK-built apps. Read its device and build restrictions before sideloading.
+
 Keep build output and signing keys out of Git. Record whether each check was a compile, emulator test, or physical-device test. Public ROM releases need hardware validation, independent signing, and redistribution review.

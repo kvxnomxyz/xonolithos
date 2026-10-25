@@ -7,3 +7,5 @@ XonolithSystemCenter is the on-device xOS maintenance app in `main/apps/Xonolith
 **Developer controls:** inspect or change USB debugging, reboot to recovery, or reboot to bootloader. These actions require explicit taps and confirmation. They work only in the ROM's platform-signed, privileged build; the separately compiled development APK is for UI testing.
 
 **Wallpapers:** preview and apply the included Obsidian and Glacier artwork. See [[Branding]].
+
+The current Samsung [feature update pack](https://github.com/kvxnomxyz/xonolithos/blob/main/docs/FEATURES-UPDATE.md) includes SystemCenter. Its ZIP has passed host-side verification but still needs an on-device install test.
