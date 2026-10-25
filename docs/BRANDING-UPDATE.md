@@ -10,12 +10,12 @@ writing. It touches only those four system files and removes the old preoptimize
 copies of the two modified apps; it does not wipe data or change boot, recovery,
 vendor or vbmeta. Rebuild the package after any of the four modules changes.
 
-Output: `artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload.zip` with an adjacent
+Output: `artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload-v2.zip` with an adjacent
 SHA-256 file. In the matching Lineage recovery, choose Apply update > Apply from
 ADB, then run:
 
 ```bash
-adb sideload artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload.zip
+adb sideload artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload-v2.zip
 ```
 
 The host's `Total xfer: 1.00x` means transfer finished, not that recovery

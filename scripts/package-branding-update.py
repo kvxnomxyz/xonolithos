@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TREE = ROOT / 'android'
 PRODUCT = TREE / 'out/target/product/gts4lv'
 BASE_OTA = PRODUCT / 'lineage_gts4lv-ota.zip'
-OUTPUT = ROOT / 'artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload.zip'
+OUTPUT = ROOT / 'artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload-v2.zip'
 CERT = TREE / 'build/target/product/security/testkey.x509.pem'
 KEY = TREE / 'build/target/product/security/testkey.pk8'
 SIGNAPK = TREE / 'out/host/linux-x86/framework/signapk.jar'
@@ -63,9 +63,10 @@ def main():
                 'assert(getprop("ro.product.device") == "gts4lv" || '
                 'getprop("ro.build.product") == "gts4lv" || '
                 'abort("This package is only for Samsung gts4lv (SM-T725)."));',
-                'unmount("/system");',
+                'ui_print("Mounting system for branding update...");',
                 'assert(mount("ext4", "EMMC", "/dev/block/by-name/system", "/system", "rw") == "/system" || '
                 'abort("Could not mount system read-write."));',
+                'ui_print("Checking installed xOS build...");',
                 'assert(file_getprop("/system/product/etc/build.prop", "ro.lineage.version") == '
                 f'"{lineage_version}" || abort("Install the matching xOS 0.1.0-dev ROM first."));',
                 'assert(file_getprop("/system/product/etc/build.prop", "ro.xos.version") == '
@@ -86,7 +87,7 @@ def main():
             # cannot reuse code compiled against the previous APK resources.
             for name in ('LineageParts', 'Settings'):
                 script.append(f'delete_recursive("/system/system_ext/priv-app/{name}/oat");')
-            script += ['assert(unmount("/system"));', 'set_progress(1.0);',
+            script += ['set_progress(1.0);',
                        'ui_print("Branding update installed. Reboot to xOS.");']
             unsigned = tmp / 'unsigned.zip'
             metadata = ('ota-type=FILE\npre-device=gts4lv\npost-sdk-level=37\n'
