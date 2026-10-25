@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TREE = ROOT / 'android'
 PRODUCT = TREE / 'out/target/product/gts4lv'
 BASE_OTA = PRODUCT / 'lineage_gts4lv-ota.zip'
-OUTPUT = ROOT / 'artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload-v2.zip'
+OUTPUT = ROOT / 'artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload-v3.zip'
 CERT = TREE / 'build/target/product/security/testkey.x509.pem'
 KEY = TREE / 'build/target/product/security/testkey.pk8'
 SIGNAPK = TREE / 'out/host/linux-x86/framework/signapk.jar'
@@ -67,14 +67,14 @@ def main():
                 'assert(mount("ext4", "EMMC", "/dev/block/by-name/system", "/system", "rw") == "/system" || '
                 'abort("Could not mount system read-write."));',
                 'ui_print("Checking installed xOS build...");',
-                'assert(file_getprop("/system/product/etc/build.prop", "ro.lineage.version") == '
+                'assert(file_getprop("/system/system/product/etc/build.prop", "ro.lineage.version") == '
                 f'"{lineage_version}" || abort("Install the matching xOS 0.1.0-dev ROM first."));',
-                'assert(file_getprop("/system/product/etc/build.prop", "ro.xos.version") == '
+                'assert(file_getprop("/system/system/product/etc/build.prop", "ro.xos.version") == '
                 '"0.1.0-dev" || abort("Not an xOS 0.1.0-dev system."));',
                 'show_progress(0.9, 0);',
             ]
             for relative in FILES:
-                dst = f'/system/{relative}'
+                dst = f'/system/system/{relative}'
                 temp = dst + '.xos-new'
                 script += [
                     f'assert(package_extract_file("payload/{relative}", "{temp}") || '
@@ -86,7 +86,7 @@ def main():
             # The replaced APKs contain dex. Remove pre-optimized copies so ART
             # cannot reuse code compiled against the previous APK resources.
             for name in ('LineageParts', 'Settings'):
-                script.append(f'delete_recursive("/system/system_ext/priv-app/{name}/oat");')
+                script.append(f'delete_recursive("/system/system/system_ext/priv-app/{name}/oat");')
             script += ['set_progress(1.0);',
                        'ui_print("Branding update installed. Reboot to xOS.");']
             unsigned = tmp / 'unsigned.zip'
