@@ -39,6 +39,9 @@ def main():
     for path in (BASE_OTA, CERT, KEY, SIGNAPK, *FILES.values()):
         if not path.is_file():
             raise SystemExit(f'Missing prerequisite: {path}')
+    if digest(FILES['product/media/bootanimation.zip']) != digest(
+            ROOT / 'vendor/extra/bootanimation/bootanimation.zip'):
+        raise SystemExit('Compiled boot animation is stale; rerun the focused build')
     buildprop = PRODUCT / 'system/product/etc/build.prop'
     props = dict(line.split('=', 1) for line in buildprop.read_text().splitlines()
                  if '=' in line and not line.startswith('#'))
