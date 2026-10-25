@@ -5,7 +5,7 @@ testing, translation, accessibility feedback, artwork, and clear bug reports.
 
 ## Before a change
 
-Check the [wiki source](wiki/Home.md), open issues, and the
+Check the [community wiki](https://github.com/kvxnomxyz/xonolithos/wiki), open issues, and the
 device-specific documents in `docs/`. For a new device, state its exact model and
 codename, firmware baseline, bootloader state, and source revisions. A passing
 compiler run is not a boot or hardware test.

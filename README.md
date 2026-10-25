@@ -25,13 +25,13 @@ The new look and SystemCenter are **source changes**. They will appear on device
 | Samsung Galaxy Tab S5e LTE (SM-T725) | `gts4lv` | Android 17 development ROM built and booted; hardware tests and release signing pending |
 | Xiaomi Redmi Note 7 | `lavender` | Pinned source prepared; ROM compile and device tests pending |
 
-There is no public stable download or automatic OTA channel yet. See the [device pages](wiki/Devices.md) before attempting a port or flash.
+There is no public stable download or automatic OTA channel yet. See the [device pages](https://github.com/kvxnomxyz/xonolithos/wiki/Devices) before attempting a port or flash.
 
 ## Get involved
 
 Contributions are welcome in device bring-up, Android app development, accessibility, translations, visual design, testing, and documentation. Start with [CONTRIBUTING.md](CONTRIBUTING.md), then open an issue or pull request with the device, branch, and reproducible details. Please distinguish a build result from an on-device test.
 
-The [wiki source](wiki/Home.md) is the entry point for devices, building, Xstore, SystemCenter, and branding. More detailed source documents live in [docs](docs/).
+The [community wiki](https://github.com/kvxnomxyz/xonolithos/wiki) is the entry point for devices, building, Xstore, SystemCenter, and branding. Its Markdown source is mirrored in [wiki](wiki/); more detailed source documents live in [docs](docs/).
 
 ## Repository layout
 
