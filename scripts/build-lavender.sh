@@ -23,6 +23,9 @@ trap finish EXIT
 trap 'exit 143' TERM INT
 export TARGET_UNOFFICIAL_BUILD_ID=xOS-0.1.0-dev
 export BUILD_USERNAME=xos BUILD_HOSTNAME=xos-builder USE_CCACHE=0
+# Siso's sandbox cannot load its config from this separate absolute OUT_DIR.
+# Ninja supports the same generated build graph without touching Samsung's out/.
+export SOONG_NINJA=ninja
 unset WITH_GMS WITH_GAPPS WITH_MICROG
 status preflight 'Starting lavender alongside the Samsung branding build'
 if [[ $(df --output=avail -BG "$ROOT" | tail -1 | tr -dc '0-9') -lt 90 ]]; then
