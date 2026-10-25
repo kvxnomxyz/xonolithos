@@ -40,7 +40,7 @@ repo sync -c -j"${SYNC_JOBS:-4}" --no-tags --no-clone-bundle
 repo manifest -r -o "$ROOT/artifacts/manifest-before-xos.xml"
 status integrating
 python3 "$ROOT/scripts/prepare-tree.py" "$TREE"
-status compiling 'Development build, 2 jobs by default; test keys, not a release'
+status compiling "Development build, ${BUILD_JOBS:-1} job(s); test keys, not a release"
 # Android's envsetup is not compatible with shell nounset.
 source build/envsetup.sh
 breakfast gts4lv

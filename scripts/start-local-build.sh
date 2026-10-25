@@ -32,7 +32,7 @@ docker run --detach --name xos-gts4lv --init \
     --user "$OWNER_UID:$OWNER_GID" \
     --mount "type=bind,source=$ROOT,target=/workspace" \
     --env HOME=/workspace/.cache/build-home \
-    --env USER=xos --env BUILD_JOBS=2 --env SYNC_JOBS=4 \
+    --env USER=xos --env BUILD_JOBS="${BUILD_JOBS:-2}" --env SYNC_JOBS=4 \
     --security-opt no-new-privileges \
     xos-builder:24.0
 echo 'Build launched. Progress: .state/build.log and .state/status.json'

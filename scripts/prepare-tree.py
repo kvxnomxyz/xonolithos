@@ -42,11 +42,16 @@ def install(tree):
         module = 'xOS'+app['module']
         modules.append(module)
         shutil.copy2(ROOT/'prebuilts'/app['filename'], prebuilts/app['filename'])
-        definitions.append('android_app_import {\n'
+        definition = ('android_app_import {\n'
             f'    name: "{module}",\n    apk: "{app["filename"]}",\n'
-            '    presigned: true,\n    preprocessed: true,\n'
-            '    product_specific: true,\n    dex_preopt: { enabled: false },\n'
+            '    presigned: true,\n    preprocessed: true,\n')
+        if app.get('skip_preprocessed_apk_checks'):
+            # Firefox's upstream-signed APK has compressed JNI libraries and
+            # extractNativeLibs=true; changing the ZIP would break its signature.
+            definition += '    skip_preprocessed_apk_checks: true,\n'
+        definition += ('    product_specific: true,\n    dex_preopt: { enabled: false },\n'
             '    enforce_uses_libs: false,\n}\n')
+        definitions.append(definition)
     (prebuilts/'Android.bp').write_text('\n'.join(definitions))
     (prebuilts/'prebuilts.mk').write_text('PRODUCT_PACKAGES += '+' '.join(modules)+'\n')
     # Record original/modified hashes. Re-runs accept only the upstream or our own version.
