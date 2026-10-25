@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Make a signed gts4lv recovery ZIP from the incremental xOS feature build."""
+"""Make a signed gts4lv recovery ZIP from built xOS features."""
+import argparse
 import hashlib
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -32,14 +34,63 @@ def digest(path):
     return h.hexdigest()
 
 
+def sdk_files():
+    for script in ('build-xstore.sh', 'build-systemcenter.sh'):
+        subprocess.run(['bash', str(ROOT / 'scripts' / script)], check=True)
+    sdk = Path(os.environ.get('ANDROID_SDK_ROOT',
+                  os.environ.get('ANDROID_HOME', Path.home() / 'Android/Sdk')))
+    apksigner = sdk / 'build-tools/35.0.0/apksigner'
+    if not apksigner.is_file():
+        raise SystemExit(f'Missing Android SDK signer: {apksigner}')
+    prebuilt = ROOT / '.cache/feature-sdk'
+    prebuilt.mkdir(parents=True, exist_ok=True)
+    pairs = (
+        ('Xstore', 'testkey'),
+        ('XonolithSystemCenter', 'platform'),
+    )
+    result = dict(FILES)
+    result['product/media/bootanimation.zip'] = ROOT / 'vendor/extra/bootanimation/bootanimation.zip'
+    for app, keyname in pairs:
+        source = ROOT / f'artifacts/{app}-0.1.0-dev.apk'
+        signed = prebuilt / f'{app}.apk'
+        certificate = TREE / f'build/target/product/security/{keyname}.x509.pem'
+        key = TREE / f'build/target/product/security/{keyname}.pk8'
+        subprocess.run([str(apksigner), 'sign', '--key', str(key), '--cert',
+                        str(certificate), '--out', str(signed), str(source)],
+                       check=True, stdout=subprocess.DEVNULL)
+        verify = subprocess.run([str(apksigner), 'verify', '--print-certs', str(signed)],
+                                check=True, capture_output=True, text=True)
+        actual = next((line.rsplit(': ', 1)[1].strip().lower()
+                       for line in verify.stdout.splitlines()
+                       if 'Signer #1 certificate SHA-256 digest:' in line), None)
+        der = subprocess.check_output(['openssl', 'x509', '-in', str(certificate),
+                                       '-outform', 'DER'])
+        expected = hashlib.sha256(der).hexdigest()
+        if actual != expected:
+            raise SystemExit(f'{app} signer differs from the ROM {keyname} certificate')
+        relative = next(name for name in FILES if name.endswith('/' + app + '.apk'))
+        result[relative] = signed
+    return result
+
+
 def main():
-    completed = ROOT / '.state/features-build.exit'
-    if not completed.is_file() or completed.read_text().strip() != '0':
-        raise SystemExit('The targeted feature build has not succeeded')
-    for path in (BASE_OTA, CERT, KEY, SIGNAPK, *FILES.values()):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--sdk-build', action='store_true',
+                        help='compile apps with local SDK and re-sign with ROM certificates')
+    args = parser.parse_args()
+    if args.sdk_build:
+        files = sdk_files()
+        output = OUTPUT.with_name(OUTPUT.stem + '-sdk.zip')
+    else:
+        completed = ROOT / '.state/features-build.exit'
+        if not completed.is_file() or completed.read_text().strip() != '0':
+            raise SystemExit('The targeted feature build has not succeeded')
+        files = FILES
+        output = OUTPUT
+    for path in (BASE_OTA, CERT, KEY, SIGNAPK, *files.values()):
         if not path.is_file():
             raise SystemExit(f'Missing prerequisite: {path}')
-    if digest(FILES['product/media/bootanimation.zip']) != digest(
+    if digest(files['product/media/bootanimation.zip']) != digest(
             ROOT / 'vendor/extra/bootanimation/bootanimation.zip'):
         raise SystemExit('Compiled boot animation is stale; rerun the focused build')
     buildprop = PRODUCT / 'system/product/etc/build.prop'
@@ -75,7 +126,7 @@ def main():
             '"0.1.0-dev" || abort("Not an xOS 0.1.0-dev system."));',
             'show_progress(0.9, 0);',
         ]
-        for relative in FILES:
+        for relative in files:
             dest = '/system/system/' + relative
             temp = '/system/system/product/.xos-' + Path(relative).name + '-new'
             script += [
@@ -95,32 +146,33 @@ def main():
             'ui_print("xOS feature update installed. Reboot to XonolithOS.");',
         ]
         unsigned = tmp / 'unsigned.zip'
+        content = 'features-v1-sdk' if args.sdk_build else 'features-v1'
         metadata = ('ota-type=FILE\npre-device=gts4lv\npost-sdk-level=37\n'
-                    'xos-version=0.1.0-dev\nxos-content=features-v1\n')
+                    f'xos-version=0.1.0-dev\nxos-content={content}\n')
         with zipfile.ZipFile(unsigned, 'w', allowZip64=True) as z:
             z.writestr('META-INF/com/android/metadata', metadata)
             z.writestr('META-INF/com/google/android/update-binary', binary,
                        compress_type=zipfile.ZIP_STORED)
             z.writestr('META-INF/com/google/android/updater-script',
                        '\n'.join(script) + '\n')
-            for relative, src in FILES.items():
+            for relative, src in files.items():
                 z.write(src, 'payload/' + relative, compress_type=zipfile.ZIP_DEFLATED)
-        OUTPUT.parent.mkdir(exist_ok=True)
+        output.parent.mkdir(exist_ok=True)
         subprocess.run(['java', '-Djava.library.path=' +
                         str(TREE / 'out/host/linux-x86/lib64'),
                         '-jar', str(SIGNAPK), '-w', str(CERT), str(KEY),
-                        str(unsigned), str(OUTPUT)], check=True)
+                        str(unsigned), str(output)], check=True)
     subprocess.run([str(TREE / 'out/host/linux-x86/bin/check_ota_package_signature'),
-                    str(CERT), str(OUTPUT)], check=True)
-    with zipfile.ZipFile(OUTPUT) as z:
+                    str(CERT), str(output)], check=True)
+    with zipfile.ZipFile(output) as z:
         if z.testzip():
             raise SystemExit('ZIP integrity check failed')
-        for relative, src in FILES.items():
+        for relative, src in files.items():
             if hashlib.sha256(z.read('payload/' + relative)).hexdigest() != digest(src):
                 raise SystemExit(f'Payload mismatch: {relative}')
-    OUTPUT.with_suffix(OUTPUT.suffix + '.sha256').write_text(
-        f'{digest(OUTPUT)}  {OUTPUT.name}\n')
-    print(f'Validated sideload update: {OUTPUT} ({OUTPUT.stat().st_size} bytes)')
+    output.with_suffix(output.suffix + '.sha256').write_text(
+        f'{digest(output)}  {output.name}\n')
+    print(f'Validated sideload update: {output} ({output.stat().st_size} bytes)')
 
 
 if __name__ == '__main__':
