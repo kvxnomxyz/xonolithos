@@ -26,6 +26,13 @@ def install(tree):
         actual = subprocess.check_output(['git','-C',str(path),'rev-parse','HEAD'], text=True).strip()
         if actual != project['commit']:
             raise ValueError('Unreviewed source revision at '+project['path'])
+    if (tree/'device/xiaomi/lavender').is_dir():
+        lavender = json.loads((ROOT/'manifests/lavender/sources.lock.json').read_text())
+        for project in lavender['projects']:
+            path = tree/project['path']
+            actual = subprocess.check_output(['git','-C',str(path),'rev-parse','HEAD'], text=True).strip()
+            if actual != project['commit']:
+                raise ValueError('Unreviewed lavender source revision at '+project['path'])
     destination = tree/'vendor/extra'
     marker = destination/'.xos-managed'
     if destination.exists() and not marker.exists():
@@ -60,18 +67,49 @@ def install(tree):
     changes = {
         'device/samsung/gts4lv-common/system.prop': lambda s: re.sub(r'^lineage\.updater\.uri=.*\n?', '', s, flags=re.M),
         'vendor/lineage/config/common.mk': lambda s: re.sub(r'^    Updater\s*$', '    Xstore', s, flags=re.M),
+        'device/samsung/gts4lv/BoardConfig.mk': lambda s: s + '\n# XonolithOS boot animation (keeps the Samsung hardware identity).\nTARGET_BOOTANIMATION := vendor/extra/bootanimation/bootanimation.zip\n',
+        'lineage-sdk/lineage/res/res/values/strings.xml': lambda s: s.replace('>LineageOS System<', '>XonolithOS System<').replace('>LineageOS API level<', '>XonolithOS API level<').replace('>LineageOS updates<', '>XonolithOS updates<').replace('>LineageOS version<', '>XonolithOS version<').replace('Lineage system settings', 'XonolithOS system settings').replace('Lineage secure system settings', 'XonolithOS secure system settings'),
+        'packages/apps/LineageParts/res/values/strings.xml': lambda s: s.replace('>LineageOS Settings<', '>XonolithOS Settings<').replace('>LineageOS</string>', '>XonolithOS</string>').replace('>LineageOS Easter Egg<', '>XonolithOS Easter Egg<').replace('your LineageOS build', 'your XonolithOS build'),
+        'packages/apps/Settings/res/values/cm_strings.xml': lambda s: s.replace('>LineageOS legal<', '>XonolithOS legal<'),
     }
+    if (tree/'device/xiaomi/lavender/BoardConfig.mk').is_file():
+        changes['device/xiaomi/lavender/BoardConfig.mk'] = lambda s: s + '\n# XonolithOS boot animation.\nTARGET_BOOTANIMATION := vendor/extra/bootanimation/bootanimation.zip\n'
+    # Keep translated About/System labels branded without rewriting upstream
+    # license comments or internal lineageos package/API identifiers.
+    branded_resources = ('lineageos_system_label', 'lineage_api_level',
+                         'lineage_updates', 'lineage_version')
+    resource_pattern = re.compile(
+        r'(<string\b[^>]*\bname="(?:' + '|'.join(branded_resources) +
+        r')"[^>]*>)(.*?)(</string>)', re.S)
+    for localized in (tree/'lineage-sdk/lineage/res/res').glob('values-*/strings.xml'):
+        relative = str(localized.relative_to(tree))
+        if resource_pattern.sub(
+                lambda m: m.group(1) + m.group(2).replace('LineageOS', 'XonolithOS') + m.group(3),
+                localized.read_text()) != localized.read_text():
+            changes[relative] = lambda s: resource_pattern.sub(
+                lambda m: m.group(1) + m.group(2).replace('LineageOS', 'XonolithOS') + m.group(3), s)
     # No third-party OTA service is inherited. Xstore is a normal app, not an OS updater.
     for relative, transform in changes.items():
         path = tree/relative
         before = path.read_bytes()
-        repo_path = tree/('device/samsung/gts4lv-common' if relative.startswith('device/') else 'vendor/lineage')
+        repo = next((prefix for prefix in (
+            'device/samsung/gts4lv-common', 'device/samsung/gts4lv',
+            'device/xiaomi/lavender',
+            'vendor/lineage', 'lineage-sdk', 'packages/apps/LineageParts',
+            'packages/apps/Settings')
+            if relative.startswith(prefix + '/')), None)
+        if repo is None:
+            raise ValueError('Unexpected patch target: '+relative)
+        repo_path = tree/repo
         rel = str(path.relative_to(repo_path))
         original = subprocess.check_output(['git','-C',str(repo_path),'show','HEAD:'+rel])
         expected = transform(original.decode()).encode()
         if original == expected:
             raise ValueError('Expected upstream patch anchor is missing in '+relative)
-        if before not in (original, expected):
+        previous = state.get(relative, {})
+        managed_previous = (previous.get('upstream_sha256') == digest_bytes(original)
+                            and previous.get('xos_sha256') == digest_bytes(before))
+        if before not in (original, expected) and not managed_previous:
             raise ValueError('Refusing to overwrite unrelated local changes: '+relative)
         path.write_bytes(expected)
         state[relative] = {'upstream_sha256':digest_bytes(original), 'xos_sha256':digest_bytes(expected)}

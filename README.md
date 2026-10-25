@@ -2,9 +2,9 @@
 
 **xOS** is case-sensitive: lowercase `x`, uppercase `OS`.
 
-Android **17**, LineageOS **24.0**. First target: **Samsung Galaxy Tab S5e LTE,
-SM-T725 (`gts4lv`)**. This is a development project, not an official LineageOS release.
-The Redmi Note 7 (`lavender`) is a later target; no Redmi build is supplied here.
+Android **17**, LineageOS **24.0**. The Samsung Galaxy Tab S5e LTE,
+SM-T725 (`gts4lv`) development build has booted. Redmi Note 7 (`lavender`)
+is the next target. This is not an official LineageOS release.
 
 ## Current work
 
@@ -15,6 +15,7 @@ The Redmi Note 7 (`lavender`) is a later target; no Redmi build is supplied here
 - No GApps or microG. **Bitpost Account Network is pending the owner's specification.**
 - GCam is pending device-specific selection and testing. The upstream camera remains available.
 - The inherited third-party OTA feed and Updater app are removed for the bring-up build.
+- A pinned, queued Redmi Note 7 build using the shared Android checkout and a separate output directory.
 
 Build state is recorded in `.state/status.json`; the log is `.state/build.log`.
 Only `stage: built` means a ROM compiled successfully. It does **not** mean that it boots,
@@ -48,6 +49,26 @@ Build outputs, if successful, are copied to `artifacts/xOS-*/`, including the RO
 recovery, vbmeta, SHA-256 checksums, a resolved source manifest, app lock, and an explicit
 hardware-testing status. They use **development test keys**. No public OTA service is enabled.
 
+## Redmi Note 7 build
+
+The `xos-lavender-build.service` background job waits for the Samsung branding build,
+then syncs seven pinned device-specific projects into `android/` and compiles with
+`OUT_DIR=android/out-lavender`. This avoids a second copy of the Android platform and
+keeps the two large compiles from running together. The source manifest is rendered
+from `manifests/lavender/sources.lock.json`; the resolved manifest and ROM checksum
+go into `artifacts/`. To start or resume the job manually:
+
+```bash
+systemd-run --user --unit=xos-lavender-build --collect \
+  /usr/bin/bash "$PWD/scripts/build-lavender.sh"
+cat .state/lavender-status.json
+tail -f .state/lavender-build.log
+```
+
+The Redmi image is experimental until it builds, boots on a real unlocked Redmi Note 7,
+and passes hardware testing. It has not been flashed. The device tree uses fixed
+partitions; do not substitute a dynamic-partition recovery or install procedure.
+
 ## Xstore
 
 Xstore uses `kvxnomxyz/xonolithos`, branch **`appstore`**. The source is in `apps/Xstore`.
@@ -67,6 +88,7 @@ signature; the ROM compiles and signs Xstore from source with its own default bu
 ## Documentation
 
 - [Samsung build and test procedure](docs/SAMSUNG-BUILD.md)
+- [Redmi Note 7 build state](docs/LAVENDER.md)
 - [App bundle and outstanding decisions](docs/APPS.md)
 - [Xstore folder format](docs/XSTORE-CATALOG.md)
 - [Porting guide draft](docs/PORTING.md) — publish after Samsung validation

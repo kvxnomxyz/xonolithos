@@ -1,0 +1,11 @@
+{
+  "projects": [
+    {"path": "device/xiaomi/lavender", "name": "android_device_xiaomi_lavender", "branch": "lineage-24.0", "commit": "22d576a0cfe0bc027d32a6f373527049f902be72", "remote": "pix106"},
+    {"path": "device/xiaomi/sdm660-common", "name": "android_device_xiaomi_sdm660-common", "branch": "17.0", "commit": "fec8c65b025126350b8cb1b5c65edcaddfcc49fd", "remote": "pix106"},
+    {"path": "vendor/xiaomi/lavender", "name": "android_vendor_xiaomi_lavender", "branch": "17.0", "commit": "abb54fe521a508070178e348375d76476ae3641b", "remote": "pix106"},
+    {"path": "vendor/xiaomi/sdm660-common", "name": "android_vendor_xiaomi_sdm660-common", "branch": "17.0", "commit": "4c67b80f73a9acf49b32cf6fb8449d47c4ca2914", "remote": "pix106"},
+    {"path": "kernel/xiaomi/sdm660", "name": "android_kernel_xiaomi_sdm660_southwest-ng", "branch": "0.20.1", "commit": "b4e34c56486b26faf4a2bc79febca8a71754b1c9", "remote": "pix106"},
+    {"path": "hardware/qcom-caf/sdm660/camera", "name": "android_hardware_qcom-caf_camera", "branch": "sdm660-4.19-12.2.1.r1-lavender-qpr2", "commit": "f554ec2bb844abcff9a6e7af84349aef9c867f0d", "remote": "pix106"},
+    {"path": "hardware/xiaomi", "name": "LineageOS/android_hardware_xiaomi", "branch": "lineage-24.0", "commit": "7dd87795288bf6713795f112056b1bf549355c81", "remote": "github"}
+  ]
+}

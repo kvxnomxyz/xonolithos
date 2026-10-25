@@ -24,9 +24,10 @@ copies Xstore source and generates `android_app_import` definitions for approved
 APKs. These are normal product apps with their original signatures, not platform-privileged
 applications. The shared product does not alter hardware identifiers or vendor fingerprints.
 
-The current `prepare-tree.py`, container launcher, artifact collector and source locks are
-intentionally restricted to `gts4lv`. Add an explicit second device configuration and parameterize
-those checks before supporting another target; changing only the `breakfast` argument is insufficient.
+`prepare-tree.py` now checks both device locks when lavender is present. The
+container launcher and artifact collector remain Samsung-specific; lavender
+has its own queued build runner and output directory. Changing only the
+`breakfast` argument is insufficient.
 
 For each port:
 
