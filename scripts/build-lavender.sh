@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Queue a reproducible Redmi Note 7 build behind the active Samsung branding build.
+# Build Redmi Note 7 from pinned sources with an independent output directory.
 set -eo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 TREE="$ROOT/android"
@@ -24,11 +24,7 @@ trap 'exit 143' TERM INT
 export TARGET_UNOFFICIAL_BUILD_ID=xOS-0.1.0-dev
 export BUILD_USERNAME=xos BUILD_HOSTNAME=xos-builder USE_CCACHE=0
 unset WITH_GMS WITH_GAPPS WITH_MICROG
-status queued 'Waiting for the Samsung branding compile to finish'
-while systemctl --user is-active --quiet xos-branding-build.service; do sleep 30; done
-if [[ -f "$ROOT/.state/branding-build.exit" ]] && [[ $(cat "$ROOT/.state/branding-build.exit") != 0 ]]; then
-    echo 'Samsung branding build failed; continuing with lavender using the shared source tree.'
-fi
+status preflight 'Starting lavender alongside the Samsung branding build'
 if [[ $(df --output=avail -BG "$ROOT" | tail -1 | tr -dc '0-9') -lt 90 ]]; then
     echo 'Need at least 90 GiB free for the first lavender build.' >&2
     exit 1

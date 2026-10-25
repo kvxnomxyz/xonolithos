@@ -1,6 +1,6 @@
 # Redmi Note 7 (`lavender`) Android 17 bring-up
 
-The build job is queued behind the Samsung branding compile. Its state is
+The build job runs alongside the Samsung branding compile. Its state is
 `.state/lavender-status.json`, with detailed output in `.state/lavender-build.log`.
 The source lock is `manifests/lavender/sources.lock.json` and the resolved
 full manifest will be saved as `artifacts/manifest-lavender.xml`.

@@ -15,7 +15,7 @@ is the next target. This is not an official LineageOS release.
 - No GApps or microG. **Bitpost Account Network is pending the owner's specification.**
 - GCam is pending device-specific selection and testing. The upstream camera remains available.
 - The inherited third-party OTA feed and Updater app are removed for the bring-up build.
-- A pinned, queued Redmi Note 7 build using the shared Android checkout and a separate output directory.
+- A pinned Redmi Note 7 build using the shared Android checkout and a separate output directory.
 
 Build state is recorded in `.state/status.json`; the log is `.state/build.log`.
 Only `stage: built` means a ROM compiled successfully. It does **not** mean that it boots,
@@ -51,10 +51,10 @@ hardware-testing status. They use **development test keys**. No public OTA servi
 
 ## Redmi Note 7 build
 
-The `xos-lavender-build.service` background job waits for the Samsung branding build,
-then syncs seven pinned device-specific projects into `android/` and compiles with
-`OUT_DIR=android/out-lavender`. This avoids a second copy of the Android platform and
-keeps the two large compiles from running together. The source manifest is rendered
+The `xos-lavender-build.service` background job syncs seven pinned device-specific
+projects into `android/` and compiles with `OUT_DIR=android/out-lavender`. This avoids
+a second copy of the Android platform. Running both compiles concurrently on this
+16 GiB machine can cause heavy swapping. The source manifest is rendered
 from `manifests/lavender/sources.lock.json`; the resolved manifest and ROM checksum
 go into `artifacts/`. To start or resume the job manually:
 
