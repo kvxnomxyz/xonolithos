@@ -1,6 +1,4 @@
-# XonolithOS
-
-**xOS** is case-sensitive: lowercase `x`, uppercase `OS`.
+# XonolithOS (xOS)
 
 Android **17**, LineageOS **24.0**. The Samsung Galaxy Tab S5e LTE,
 SM-T725 (`gts4lv`) development build has booted. Redmi Note 7 (`lavender`)
