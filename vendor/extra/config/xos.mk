@@ -5,7 +5,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.xos.version=0.1.0-dev \
     ro.xos.account_network=pending
 
-PRODUCT_PACKAGES += Xstore
+PRODUCT_PACKAGES += Xstore XonolithSystemCenter
+
+PRODUCT_COPY_FILES += \
+    vendor/extra/permissions/privapp-permissions-xonolithos.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-xonolithos.xml
 
 # Generated from checksum- and certificate-verified local APKs by prepare-tree.py.
 $(call inherit-product, vendor/extra/prebuilts/prebuilts.mk)

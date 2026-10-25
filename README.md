@@ -1,96 +1,51 @@
-# XonolithOS (xOS)
+<p align="center">
+  <img src="branding/xonolithos-logo.svg" alt="XonolithOS" width="540">
+</p>
 
-Android **17**, LineageOS **24.0**. The Samsung Galaxy Tab S5e LTE,
-SM-T725 (`gts4lv`) development build has booted. Redmi Note 7 (`lavender`)
-is the next target. This is not an official LineageOS release.
+# XonolithOS
 
-## Current work
+**XonolithOS (xOS)** is a community Android fork built from LineageOS 24.0 and Android 17. The short name is case-sensitive: **xOS**. We are building a polished, repairable system with clear device support, open source code, and room for contributors.
 
-- Samsung source manifests and a verified revision lock for the device dependencies.
-- A resumable Ubuntu 22.04 container build on the local Omarchy machine.
-- xOS product properties and a separately buildable native **Xstore** app.
-- Presigned APK integration for WM Keyboard, Obsidian, F-Droid, Aurora Store, Firefox.
-- No GApps or microG. **Bitpost Account Network is pending the owner's specification.**
-- GCam is pending device-specific selection and testing. The upstream camera remains available.
-- The inherited third-party OTA feed and Updater app are removed for the bring-up build.
-- A pinned Redmi Note 7 build using the shared Android checkout and a separate output directory.
+This project is in **developer preview**. The current Samsung Galaxy Tab S5e LTE build has booted, but hardware validation and release signing are incomplete. The Redmi Note 7 build is still in progress. Please do not present these builds as stable releases.
 
-Build state is recorded in `.state/status.json`; the log is `.state/build.log`.
-Only `stage: built` means a ROM compiled successfully. It does **not** mean that it boots,
-that LTE works, or that the ROM is ready to distribute.
+## What we are building
 
-## Start or resume the local tablet build
+- A recognizable xOS look: the phone-to-wordmark boot animation, crystalline wallpapers, and a reusable [logo](branding/xonolithos-logo.svg).
+- [Xstore](apps/Xstore), an app browser backed by the public `appstore` branch. It keeps the requested folder-based `title.txt`, `author.txt`, and `description.txt` catalog format.
+- [XonolithSystemCenter](apps/XonolithSystemCenter), a local tool for verified update packs, boot options, USB debugging control, and included wallpapers.
+- A Google-services-free base. Bitpost Account Network remains a future integration until its protocol and account flow are specified.
+- Device bring-up that records what has actually built and been tested.
 
-```bash
-python3 scripts/doctor.py
-python3 scripts/apps.py fetch
-pkexec bash scripts/start-local-build.sh
-```
+The new look and SystemCenter are **source changes**. They will appear on devices only after a new ROM or update package containing them is built and installed. For the existing Samsung development ROM, see the [feature update procedure](docs/FEATURES-UPDATE.md).
 
-The privileged script creates **44 GiB of disk-backed swap**, starts Docker, builds
-the Ubuntu builder image and launches `xos-gts4lv` in the background. An authentication
-dialog is expected. Read the script before running it. It does not flash a device,
-publish a repository, change group membership or write `/etc/fstab`.
+## Device status
 
-```bash
-tail -f .state/build.log
-cat .state/status.json
-# Stop the container, keeping all source and incremental build outputs:
-pkexec docker stop --time 60 xos-gts4lv
-```
+| Device | Codename | State |
+| --- | --- | --- |
+| Samsung Galaxy Tab S5e LTE (SM-T725) | `gts4lv` | Android 17 development ROM built and booted; hardware tests and release signing pending |
+| Xiaomi Redmi Note 7 | `lavender` | Pinned source prepared; ROM compile and device tests pending |
 
-The initial source sync is large. Compilation is limited to two jobs for this 16 GiB
-machine; swapping may make it very slow. Leave the computer powered and awake.
-After a reboot, run the same start command to re-enable the temporary swap and resume.
+There is no public stable download or automatic OTA channel yet. See the [device pages](wiki/Devices.md) before attempting a port or flash.
 
-Build outputs, if successful, are copied to `artifacts/xOS-*/`, including the ROM ZIP,
-recovery, vbmeta, SHA-256 checksums, a resolved source manifest, app lock, and an explicit
-hardware-testing status. They use **development test keys**. No public OTA service is enabled.
+## Get involved
 
-## Redmi Note 7 build
+Contributions are welcome in device bring-up, Android app development, accessibility, translations, visual design, testing, and documentation. Start with [CONTRIBUTING.md](CONTRIBUTING.md), then open an issue or pull request with the device, branch, and reproducible details. Please distinguish a build result from an on-device test.
 
-The `xos-lavender-build.service` background job syncs seven pinned device-specific
-projects into `android/` and compiles with `OUT_DIR=android/out-lavender`. This avoids
-a second copy of the Android platform. Running both compiles concurrently on this
-16 GiB machine can cause heavy swapping. The source manifest is rendered
-from `manifests/lavender/sources.lock.json`; the resolved manifest and ROM checksum
-go into `artifacts/`. To start or resume the job manually:
+The [wiki source](wiki/Home.md) is the entry point for devices, building, Xstore, SystemCenter, and branding. More detailed source documents live in [docs](docs/).
 
-```bash
-systemd-run --user --unit=xos-lavender-build --collect \
-  /usr/bin/bash "$PWD/scripts/build-lavender.sh"
-cat .state/lavender-status.json
-tail -f .state/lavender-build.log
-```
+## Repository layout
 
-The Redmi image is experimental until it builds, boots on a real unlocked Redmi Note 7,
-and passes hardware testing. It has not been flashed. The device tree uses fixed
-partitions; do not substitute a dynamic-partition recovery or install procedure.
+- `main`: OS sources, apps integrated into the ROM, build scripts, documentation, and artwork.
+- `xstore`: standalone Xstore Android app source.
+- `appstore`: public Xstore catalog folders; no OS source or app implementation.
+- `apps/`: native xOS apps.
+- `vendor/extra/`: ROM integration and generated boot animation.
+- `manifests/`: pinned upstream source revisions.
 
-## Xstore
+To build locally, start with [Samsung build instructions](docs/SAMSUNG-BUILD.md) or the [Redmi Note 7 status](docs/LAVENDER.md). The [porting guide](docs/PORTING.md) describes the expected device bring-up work. Generated APKs and ROM ZIPs are development artifacts; they are not stored in Git.
 
-Xstore uses `kvxnomxyz/xonolithos`, branch **`appstore`**. The source is in `apps/Xstore`.
-It is a regular Android app: no privileged installation, embedded tokens or Google dependencies.
-The appstore branch must be public; a private or missing catalog is displayed
-as unavailable, without fake app listings. The `main` branch holds the OS project,
-`xstore` holds the standalone store source, and `appstore` holds catalog folders.
+## Trust and licensing
 
-```bash
-# Requires JDK 17/21, Android SDK platform 35 and build-tools 35.0.0.
-bash scripts/build-xstore.sh
-```
+Xstore checks APK SHA-256 and package identity before handing an APK to Android's installer. SystemCenter uses Android's recovery certificate check before offering to reboot for an update. Both still depend on the integrity of the published catalog or update source; community submissions need review.
 
-Standalone output: `artifacts/Xstore-0.1.0-dev.apk`. This has a separate development
-signature; the ROM compiles and signs Xstore from source with its own default build key.
-
-## Documentation
-
-- [Samsung build and test procedure](docs/SAMSUNG-BUILD.md)
-- [Redmi Note 7 build state](docs/LAVENDER.md)
-- [App bundle and outstanding decisions](docs/APPS.md)
-- [Xstore folder format](docs/XSTORE-CATALOG.md)
-- [Porting guide draft](docs/PORTING.md) — publish after Samsung validation
-- [Source attribution](NOTICE.md)
-
-Original xOS code is Apache-2.0. Upstream Android, kernel and third-party applications
-retain their own licenses. The kernel is GPL-2.0; the xOS license does not relicense it.
+Original xOS code is [Apache-2.0](LICENSE). Android, LineageOS, kernels, device trees, and third-party apps retain their own licenses; see [NOTICE.md](NOTICE.md). XonolithOS is an independent project and is not an official LineageOS release.

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 164" role="img" aria-label="XonolithOS logo">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="1" y2="0">
+      <stop stop-color="#08111f"/><stop offset="1" stop-color="#17243c"/>
+    </linearGradient>
+    <linearGradient id="ice" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#aaf8ff"/><stop offset=".52" stop-color="#2cc8ec"/><stop offset="1" stop-color="#2474d4"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" x2="1" y1="1" y2="0">
+      <stop stop-color="#5964d9"/><stop offset="1" stop-color="#c2a6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="810" height="164" rx="28" fill="#08111f"/>
+  <rect x="10" y="10" width="144" height="144" rx="33" fill="url(#bg)"/>
+  <path d="M31 33h25l77 98h-25z" fill="url(#ice)"/>
+  <path d="M108 33h25l-77 98H31z" fill="url(#violet)"/>
+  <path d="M71 33h22v98H71z" fill="#eefbff" opacity=".94"/>
+  <text x="185" y="106" fill="#e7f5fb" font-family="DejaVu Sans, sans-serif" font-size="65" font-weight="700" letter-spacing="-3">XonolithOS</text>
+  <text x="188" y="135" fill="#78b9cf" font-family="DejaVu Sans, sans-serif" font-size="16" letter-spacing="5">ANDROID, REFORGED</text>
+</svg>

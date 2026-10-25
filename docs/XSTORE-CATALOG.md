@@ -55,6 +55,6 @@ Validate a local checkout before publishing:
 python3 scripts/validate-catalog.py /path/to/appstore-checkout
 ```
 
-No appstore branch has been created or published by this build task. Metadata-only sample
-files are provided under `examples/appstore/example-app/`; they are documentation, not a
-real catalog entry or an installable package.
+The public `appstore` branch now contains catalog folders for the pinned initial app
+selection. Metadata-only sample files under `examples/appstore/example-app/` remain
+documentation and are not a real catalog entry or an installable package.

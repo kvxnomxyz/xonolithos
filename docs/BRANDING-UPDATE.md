@@ -18,6 +18,10 @@ ADB, then run:
 adb sideload artifacts/xOS-0.1.0-dev-gts4lv-branding-sideload-v3.zip
 ```
 
+This v3 development ZIP was built before the new phone-to-wordmark animation and
+XonolithSystemCenter were integrated. It does not install them. Use the separate
+[feature update pack](FEATURES-UPDATE.md) when its focused build completes.
+
 The host's `Total xfer: 1.00x` means transfer finished, not that recovery
 installed the update. Read the recovery result before rebooting. Do not use
 this ZIP on lavender or on a different Samsung build. This is a test-key

@@ -41,6 +41,9 @@ def install(tree):
     marker.write_text('Managed by XonolithOS/scripts/prepare-tree.py\n')
     shutil.copytree(ROOT/'apps/Xstore', destination/'apps/Xstore',
                     ignore=shutil.ignore_patterns('build'), dirs_exist_ok=True)
+    shutil.copytree(ROOT/'apps/XonolithSystemCenter',
+                    destination/'apps/XonolithSystemCenter',
+                    ignore=shutil.ignore_patterns('build'), dirs_exist_ok=True)
     prebuilts = destination/'prebuilts'
     prebuilts.mkdir(exist_ok=True)
     modules = []

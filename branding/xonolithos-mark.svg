@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="XonolithOS mark">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="1" y2="0">
+      <stop stop-color="#08111f"/><stop offset="1" stop-color="#17243c"/>
+    </linearGradient>
+    <linearGradient id="ice" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#aaf8ff"/><stop offset=".52" stop-color="#2cc8ec"/><stop offset="1" stop-color="#2474d4"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" x2="1" y1="1" y2="0">
+      <stop stop-color="#5964d9"/><stop offset="1" stop-color="#c2a6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="29" fill="url(#bg)"/>
+  <path d="M19 20h22l69 88H88z" fill="url(#ice)"/>
+  <path d="M88 20h22l-69 88H19z" fill="url(#violet)"/>
+  <path d="M54 20h20v88H54z" fill="#eefbff" opacity=".94"/>
+  <path d="M54 20h20v88H54z" fill="#48d9ef" opacity=".18"/>
+</svg>

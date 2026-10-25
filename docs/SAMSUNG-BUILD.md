@@ -67,16 +67,19 @@ This script's success is a compile result, not a release result. Default Android
 are deliberately used for initial development. Private production keys, verified boot
 configuration and an OTA migration strategy must be established before public release.
 
-## First hardware session (not performed yet)
+## Hardware validation
 
-Before writing installation instructions, confirm the tablet's exact model, installed
-firmware, bootloader state and current recovery. Back up user data. Installation and the
+The initial SM-T725 development build was sideloaded and booted. The owner also
+reported a successful branding v3 sideload. That establishes a first boot, not a
+complete hardware pass; post-boot file hashes and the checks below remain pending.
+Before flashing a different tablet, confirm its exact model, installed firmware,
+bootloader state and current recovery. Back up user data. Installation and the
 metadata migration can require a factory reset; never automate that as part of building.
 
 Use the [official model guide](https://wiki.lineageos.org/devices/gts4lv/install/) together
 with the selected port's notes, after reviewing the actual built recovery and partitions.
-There is no blanket flashing command in this project because the current device state
-has not been inspected. No connected tablet has been modified.
+There is no blanket full-ROM flashing command in this project because a new
+device's current state must be inspected first.
 
 Record these results for an xOS candidate:
 
