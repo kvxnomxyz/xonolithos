@@ -46,7 +46,8 @@ status integrating 'Applying xOS apps and branding to lavender'
 python3 "$ROOT/scripts/prepare-tree.py" "$TREE"
 "$TREE/.repo/repo/repo" manifest -r -o "$ROOT/artifacts/manifest-lavender.xml"
 status compiling 'LineageOS 24 / Android 17; Redmi Note 7 development build'
-export OUT_DIR="$TREE/out-lavender"
+# Soong requires OUT_DIR to be relative to TOP for path validation.
+export OUT_DIR=out-lavender
 source build/envsetup.sh
 breakfast lavender
 mka bacon -j2
