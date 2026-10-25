@@ -16,10 +16,11 @@ Services dependencies are used. For ROM builds, use `Android.bp` from the main p
 Development and ROM signing keys differ; do not use this preview as a production OTA.
 
 The catalog endpoint is `kvxnomxyz/xonolithos`, branch `appstore`. See [CATALOG.md](CATALOG.md).
-The initial app supports browsing/search, cached listings, HTTPS APK downloads, checksum and
-package-ID checks, and confirmation through Android's package installer.
+The app has a clean, F-Droid-inspired catalog layout with search and availability filters.
+It supports cached listings, HTTPS APK downloads, checksum and package-ID checks, and
+confirmation through Android's package installer. It is independent of F-Droid.
 
 Bitpost Account Network integration is pending. No account/token is embedded.
 The APK compiles and catalog tests pass; Android UI and on-device installation are untested.
 
-Source exported from main commit `241fb3aca0eeb33d0007419bc8abe53144aba129`.
+The integrated app source is maintained in sync with `main/apps/Xstore`.
