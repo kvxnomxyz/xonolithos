@@ -11,6 +11,8 @@ printf '\n[%s] unattended sequence started\n' "$(date -Is)"
 
 push_tracked() {
     cd "$ROOT"
+    python3 "$ROOT/scripts/publish-build-status.py"
+    git add docs/BUILD-STATUS.md
     git add -u
     if ! git diff --cached --quiet; then
         git commit -m "Record unattended build updates" || true

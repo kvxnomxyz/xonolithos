@@ -14,6 +14,8 @@ bash "$ROOT/scripts/build-rom.sh"
 rc=$?
 printf '%s\n' "$rc" > "$STATE/samsung-retry.exit"
 cd "$ROOT"
+python3 "$ROOT/scripts/publish-build-status.py"
+git add docs/BUILD-STATUS.md
 git add -u
 if ! git diff --cached --quiet; then
     git commit -m 'Record unattended Samsung retry result' || true
