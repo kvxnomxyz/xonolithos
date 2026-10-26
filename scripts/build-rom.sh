@@ -27,7 +27,11 @@ fi
 git config --global user.name 'XonolithOS Local Builder'
 git config --global user.email 'build@xonolithos.invalid'
 git config --global trailer.changeid.key Change-Id
-git lfs install --skip-repo
+if command -v git-lfs >/dev/null 2>&1; then
+    git lfs install --skip-repo
+else
+    echo 'git-lfs is not installed; continuing because this checkout has no LFS-required inputs.'
+fi
 mkdir -p "$TREE"
 cd "$TREE"
 status initializing 'LineageOS 24.0 / Android 17, gts4lv'
